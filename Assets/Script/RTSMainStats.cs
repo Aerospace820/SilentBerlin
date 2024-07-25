@@ -14,8 +14,17 @@ public class RTSMainStats : MonoBehaviour
         public string Name;
         public float RTSValue;
     }
+
+    [System.Serializable]
+    public class ObjectUIS
+    {
+        public GameObject ObjectUIfrfr;
+        public bool IsActivated;
+    }
     
     public List<RTSNames> rtsObjects = new List<RTSNames>();
+    public List<ObjectUIS> ObjectUI = new List<ObjectUIS>();
+
     public Slider EnergySlider;
     private float Oldthing = 100f;
     private float smoothVelocity;
@@ -23,6 +32,7 @@ public class RTSMainStats : MonoBehaviour
     private void Start()
     {
         EnergySlider.value = 100f;
+        
     }
     private void Update()
     {
@@ -40,6 +50,12 @@ public class RTSMainStats : MonoBehaviour
         {
             rtsObjects[objects].RTSValue -= valueChange;
         }   
+    }
+    public void IncomingObjects(bool Activated, int ObjectNumbered)
+    {
+        Debug.Log("DidRecieve");
+        ObjectUI[ObjectNumbered].ObjectUIfrfr.SetActive(Activated);
+        ObjectUI[ObjectNumbered].IsActivated = Activated;
     }
 
     public void EnergyUpdate(float Incoming)

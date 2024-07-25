@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public EnergyBar energyBar; 
     Rigidbody rb;
+    public static bool CanCollect = false;
     [SerializeField] float movementSpeedNorm;
     [SerializeField] float movementSpeedShift;
     public float jumpHeight;
@@ -22,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     public float TimeMulitiplier;
     private float movementSpeed;
     public float UpdateStatic;
-    private float UpdateTime;
+    public float UpdateTime;
     private float Lower;
     private bool isGrounded;
     private float RegenTime;
@@ -33,30 +34,43 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         RegenTime = Time.deltaTime/RegenAmount;
+        UpdateTime = UpdateStatic;
     }
 
     void Update()
     {
-        UpdateTime -= Time.deltaTime;
+        if(!CanCollect)
+        {
+            UpdateTime -= Time.deltaTime;
+        }
+        if(UpdateTime < 0f)
+        {
+            CanCollect = true;
+            UpdateTime = UpdateStatic;
+        }
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            CanCollect = false;
+        }
         transform.rotation = Quaternion.Euler(0, 0, 0);
         if(ShiftThing != ShiftThingCheck)
         {
             energyBar.Invoke(ShiftThing);
         }
         ShiftThingCheck = ShiftThing;
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         Debug.Log(isGrounded);
         if(ShiftThing < MaxShift)
         {
             ShiftThing += RegenTime;
         }
+    }
 
-  //      else if (UpdateTime < 0 && ShiftThing < MaxShift && ShiftThing > MaxShift-- && !Input.GetKey(KeyCode.LeftShift)||!Input.GetKey(KeyCode.RightShift));
-   //     {
-     //       ShiftThing = MaxShift;
-     //   }
-
-
+    void FixedUpdate()
+    {
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+        rb.velocity = new Vector3(horizontalInput * movementSpeed, rb.velocity.y, verticalInput * movementSpeed);
         if(Input.GetKey(KeyCode.LeftShift)||Input.GetKey(KeyCode.RightShift))
         {
             movementSpeed = movementSpeedShift;
@@ -77,12 +91,6 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = tempVelocity;
             ShiftThing -= JumpEnergy;
         }
-    }
-
-    void FixedUpdate()
-    {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-        rb.velocity = new Vector3(horizontalInput * movementSpeed, rb.velocity.y, verticalInput * movementSpeed);
     }   
 }
+     
