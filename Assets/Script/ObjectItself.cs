@@ -12,7 +12,7 @@ public class ObjectItself : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         Debug.Log("IsInObjectCOllider");
-        if(other.CompareTag("Player") && Input.GetKeyDown(KeyCode.E) && PlayerMovement.CanCollect == true)
+        if(other.CompareTag("Player") && Input.GetKey(KeyCode.E) && PlayerMovement.CanCollect == true)
         {
             Debug.Log("Balala");
             IsPicked.Invoke(true, ObjectNumber);

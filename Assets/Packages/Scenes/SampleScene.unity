@@ -740,7 +740,7 @@ Transform:
   m_GameObject: {fileID: 283530506}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10.518743, y: -8.2, z: -2.79}
+  m_LocalPosition: {x: -10.518743, y: 17, z: -2.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -771,10 +771,10 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 0
+  m_Constraints: 4
   m_CollisionDetection: 2
 --- !u!65 &283530509
 BoxCollider:
@@ -813,7 +813,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 691715022}
-        m_TargetAssemblyTypeName: RTSMainStats, Assembly-CSharp
+        m_TargetAssemblyTypeName: rtsMaterials, Assembly-CSharp
         m_MethodName: EnergyUpdate
         m_Mode: 0
         m_Arguments:
@@ -859,7 +859,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &330585543
 GameObject:
@@ -1668,19 +1668,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 691715020}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e32bb16369d749a4f84f35d9cc9dd841, type: 3}
+  m_Script: {fileID: 11500000, guid: f967cefaaf629b443809c84f69a7befc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rtsObjects:
-  - Name: Money
-    RTSValue: 100
-  - Name: Money
-    RTSValue: 100
-  ObjectUI:
-  - ObjectUIfrfr: {fileID: 1260311078}
-    IsActivated: 0
-  - ObjectUIfrfr: {fileID: 264842260}
-    IsActivated: 0
   EnergySlider: {fileID: 543656580}
 --- !u!1 &794316467
 GameObject:
@@ -1710,7 +1700,7 @@ Transform:
   m_GameObject: {fileID: 794316467}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -8.148, z: 0}
+  m_LocalPosition: {x: 0, y: 17, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1732,7 +1722,7 @@ MonoBehaviour:
   IsPicked:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 691715022}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RTSMainStats, Assembly-CSharp
         m_MethodName: IncomingObjects
         m_Mode: 0
@@ -1870,7 +1860,7 @@ Transform:
   m_GameObject: {fileID: 839607887}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -8.148, z: 5.64}
+  m_LocalPosition: {x: 0, y: 17, z: 5.64}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1940,7 +1930,7 @@ MonoBehaviour:
   IsPicked:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 691715022}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RTSMainStats, Assembly-CSharp
         m_MethodName: IncomingObjects
         m_Mode: 0
@@ -2523,7 +2513,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
