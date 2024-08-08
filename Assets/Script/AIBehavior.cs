@@ -76,6 +76,7 @@ public class AIBehavior : MonoBehaviour
         
         if(!alreadyattacked)
         {
+            Debug.Log("funne");
             alreadyattacked = true;
             Invoke(nameof(ResetAttack), timebetweenatttacks);
         }

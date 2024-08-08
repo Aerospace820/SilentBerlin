@@ -7,6 +7,7 @@ public class EnergyBar : UnityEvent<float> { }
 public class PlayerMovement : MonoBehaviour
 {
     public EnergyBar energyBar; 
+    public UnityEvent Shoot;
     Rigidbody rb;
     public static bool CanCollect = false;
     [SerializeField] float movementSpeedNorm;
@@ -29,15 +30,26 @@ public class PlayerMovement : MonoBehaviour
     private float RegenTime;
     public float RegenAmount;
     private float ShiftThingCheck = 100f;
+    // attack
+    public float timebetweenatttacks;
+    bool alreadyattacked;
 
-    void Start()
+    private void Start()
     {
         rb = GetComponent<Rigidbody>();
         RegenTime = Time.deltaTime/RegenAmount;
         UpdateTime = UpdateStatic;
     }
 
-    void Update()
+    private void Update()
+    {
+        Shooting();
+        Collector();
+        ShiftFunct();
+//transform.rotation = Quaternion.Euler(0, 0, 0);
+    }
+
+    private void Collector()
     {
         if(!CanCollect)
         {
@@ -52,7 +64,10 @@ public class PlayerMovement : MonoBehaviour
         {
             CanCollect = false;
         }
-        transform.rotation = Quaternion.Euler(0, 0, 0);
+    }
+
+    private void ShiftFunct()
+    {
         if(ShiftThing != ShiftThingCheck)
         {
             energyBar.Invoke(ShiftThing);
@@ -65,7 +80,24 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    private void Shooting()
+    {
+        if(Input.GetKey(KeyCode.F))
+        {
+            if(!alreadyattacked)
+            {
+                Shoot.Invoke();
+                alreadyattacked = true;
+                Invoke(nameof(ResetAttack), timebetweenatttacks);
+            }
+        }
+    }
+    private void ResetAttack()
+    {
+        alreadyattacked = false;
+    }
+
+    private void FixedUpdate()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         float horizontalInput = Input.GetAxis("Horizontal");
