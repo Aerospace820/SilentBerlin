@@ -33,6 +33,8 @@ public class PlayerMovement : MonoBehaviour
     // attack
     public float timebetweenatttacks;
     bool alreadyattacked;
+    float WoodHealth = 50f, WoolHealth = 50f;
+    float MoreWool, MoreWood;
 
     private void Start()
     {
@@ -46,7 +48,33 @@ public class PlayerMovement : MonoBehaviour
         Shooting();
         Collector();
         ShiftFunct();
-//transform.rotation = Quaternion.Euler(0, 0, 0);
+        //Rotate();
+    }
+
+    private void Health()
+    {
+        //if(enemy tag)
+        //{
+        //  WoodHealth -= Random.Range(0.2f, 0.7f)
+        //  WoolHealth -= Randomg.Range(0.1f, 0.5f) 
+        //}
+        //
+    }
+
+    public void MoreWoodHealth()
+    {
+        WoodHealth += MoreWood;
+    }
+
+    public void MoreWoolHealth()
+    {
+        WoolHealth += MoreWool;
+    }
+
+    private void Rotate()
+    {
+        Quaternion desiredRotation = Quaternion.LookRotation(rb.velocity);
+        transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, Time.deltaTime);
     }
 
     private void Collector()
