@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class rtsMaterials : MonoBehaviour
 {
-    static Dictionary<string, Dictionary<string, float>> Maeterials = new Dictionary<string, Dictionary<string, float>>
+    static Dictionary<string, Dictionary<string, float>> old = new Dictionary<string, Dictionary<string, float>>
     {
         {
             "normal", new Dictionary<string, float>
@@ -49,10 +49,19 @@ public class rtsMaterials : MonoBehaviour
             }
         },
     };
-    public Slider EnergySlider;
-    private float Oldthing = 100f;
+
+    static public Dictionary<string, float> materials = new Dictionary<string, float>
+    {
+        {"Coal", 0f},
+        {"Wool", 0f},
+        {"Wood", 0f}
+    };
+
+    public Slider EnergySlider, H1Slider, H2Slider;
+    private float Oldthing = 100f, HealthThing1 = 50f, HealthThing2 = 50f;
     private float smoothVelocity;
     private float energy = 100f;
+    private float Health1 = 50f, Health2 = 50f;
     private void Start()
     {
         EnergySlider.value = 100f;
@@ -60,12 +69,40 @@ public class rtsMaterials : MonoBehaviour
     }
     private void Update()
     {
-        Oldthing = Mathf.SmoothDamp(Oldthing, energy, ref smoothVelocity, 0.3f);
-        EnergySlider.value = Oldthing;
+        SliderUpdate();
     }
 
-    public void EnergyUpdate(float Incoming)
+    private void SliderUpdate()
     {
-        energy = Incoming;
+        Oldthing = Mathf.SmoothDamp(Oldthing, energy, ref smoothVelocity, 0.3f);
+        EnergySlider.value = Oldthing;
+        HealthThing1 = Mathf.SmoothDamp(HealthThing1, Health1, ref smoothVelocity, 0.3f);
+        H1Slider.value = HealthThing1;
+        HealthThing2 = Mathf.SmoothDamp(HealthThing2, Health2, ref smoothVelocity, 0.3f);
+        H2Slider.value = HealthThing2;
+    }
+
+    public void WoodCoal()
+    {
+        materials["Coal"] = Random.Range(0.5f, 1.5f);
+        materials["Wood"] = Random.Range(1f, 2f);
+    }
+
+    public void EnergyUpdate(float Incoming, int Updatetype)
+    {
+        if(Updatetype == 0)
+        {
+            energy = Incoming;
+        }
+
+        else if(Updatetype == 1)
+        {
+            Health1 = Incoming;
+        }
+
+        else if(Updatetype == 2)
+        {
+            Health2 = Incoming;
+        }
     }
 }

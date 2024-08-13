@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 [System.Serializable]
-public class EnergyBar : UnityEvent<float> { }
+public class EnergyBar : UnityEvent<float, int> { }
 public class PlayerMovement : MonoBehaviour
 {
     public EnergyBar energyBar; 
     public UnityEvent Shoot;
+    public GameObject explode; 
     Rigidbody rb;
     public static bool CanCollect = false;
     [SerializeField] float movementSpeedNorm;
@@ -29,12 +30,13 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded;
     private float RegenTime;
     public float RegenAmount;
-    private float ShiftThingCheck = 100f;
+    private float ShiftThingCheck = 100f, Health1Check = 50f, Health2Check = 50f;
     // attack
     public float timebetweenatttacks;
-    bool alreadyattacked;
-    float WoodHealth = 50f, WoolHealth = 50f;
-    float MoreWool, MoreWood;
+    private bool alreadyattacked;
+    public float WoodHealth = 50f, WoolHealth = 50f;
+    public float MoreWool, MoreWood;
+    public string enemytag;
 
     private void Start()
     {
@@ -48,17 +50,36 @@ public class PlayerMovement : MonoBehaviour
         Shooting();
         Collector();
         ShiftFunct();
-        //Rotate();
+        Health();
     }
 
     private void Health()
     {
-        //if(enemy tag)
-        //{
-        //  WoodHealth -= Random.Range(0.2f, 0.7f)
-        //  WoolHealth -= Randomg.Range(0.1f, 0.5f) 
-        //}
-        //
+        if(WoodHealth < 0.01f || WoolHealth < 0.01f)
+        {
+            explode.SetActive(true);
+        }
+        if(WoolHealth != Health1Check)
+        {
+            energyBar.Invoke(WoolHealth, 1);
+            Health1Check = WoolHealth;
+        }
+        if(WoodHealth != Health2Check)
+        {
+            Debug.Log("did stuff");
+            energyBar.Invoke(WoodHealth, 2);
+            Health2Check = WoodHealth;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag(enemytag))
+        {
+          WoodHealth -= Random.Range(0.2f, 0.7f);
+          WoolHealth -= Random.Range(0.1f, 0.5f);
+          Destroy(other.gameObject);
+        }
     }
 
     public void MoreWoodHealth()
@@ -69,12 +90,6 @@ public class PlayerMovement : MonoBehaviour
     public void MoreWoolHealth()
     {
         WoolHealth += MoreWool;
-    }
-
-    private void Rotate()
-    {
-        Quaternion desiredRotation = Quaternion.LookRotation(rb.velocity);
-        transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, Time.deltaTime);
     }
 
     private void Collector()
@@ -98,7 +113,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(ShiftThing != ShiftThingCheck)
         {
-            energyBar.Invoke(ShiftThing);
+            energyBar.Invoke(ShiftThing, 0);
         }
         ShiftThingCheck = ShiftThing;
         Debug.Log(isGrounded);
